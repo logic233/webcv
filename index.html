@@ -1,24 +1,61 @@
+<!-- 借网上的html一用 -->
 <!DOCTYPE html>
 <html>
 
 <head>
-	<meta charset="utf-8">
-	<title>logic's Wonderlands</title>
+    <meta charset="UTF-8">
+    <title>logic's adventure</title>
+
+    <!--两张图片格式为左浮动，处在一行-->
+    <style type="text/css">
+        .InputOutput {
+            float: left;
+            margin: 10px;
+        }
+    </style>
 </head>
 
 <body>
+    <!--若 opencv.js 文件加载成功，则会显示“opencv.js is ready.”-->
+    <p id="status">opencv.js is loading...</p>
 
-	<img id="myimage"  src="images/hotpot.png"  height="180">
-	<p>火锅，我的火锅！</p>
+    <!--图片读入区域-->
+    <div class="InputOutput">
+        <div class="caption">srcImg
+            <input type="file" id="inputFile" name="file" />
+        </div>
+        <img id="srcImg" alt="No Image" height="500px" />
+    </div>
 
+    <!--结果展示区域-->
+    <div class="InputOutput">
+        <div class="caption">dstImg</div>
+        <canvas id="dstImg" height="500px"></canvas>
+    </div>
+
+    <!--读入图片，并在 canvas 中显示-->
+    <script type="text/javascript">
+        // < !--读入图片-->
+        let imgElement = document.getElementById("srcImg");
+        let fileElement = document.getElementById("inputFile");
+        fileElement.addEventListener("change",
+            (e) => { imgElement.src = URL.createObjectURL(e.target.files[0]); },
+            false);
+    // < !--显示 -->
+            imgElement.onload=function() {
+                let src = cv.imread("srcImg");
+                // let src=1;
+                cv.imshow('dstImg', src);
+                src.delete();
+            
+            };
+
+    // < !--成功加载 opencv.js 后，status 标签会显示“opencv.js is ready.”-->
+            function onOpenCvReady() {
+                document.getElementById("status").innerHTML = "opencv.js is ready.";
+            }
+    </script>
+    <script async src="opencv_.js" onload="onOpenCvReady();" type="text/javascript"></script>
 </body>
-
-<script>
-	function changeImage() {
-		element = document.getElementById('myimage')
-		alert("111")
-	}
-</script>
-
 
 </html>

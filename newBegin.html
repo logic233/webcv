@@ -1,0 +1,57 @@
+<!-- 借网上的html一用 -->
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>logic's adventure</title>
+
+	
+    <!--两张图片格式为左浮动，处在一行-->
+    <style type="text/css">
+        .InputOutput {
+            float: left;
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+	<!--若 opencv.js 文件加载成功，则会显示“opencv.js is ready.”-->
+	<p id="status">opencv.js is loading...</p>
+
+	<!--图片读入区域-->
+	<div class="InputOutput">
+		<div class="caption">srcImg
+			<input type="file" id="inputFile" name="file" />
+		</div>
+		<img id="srcImg" alt="No Image"/>
+	</div>
+
+	<!--结果展示区域-->
+	<div class="InputOutput">
+		<div class="caption">dstImg</div>
+		<canvas id="dstImg" height="2000px"width="4000px"></canvas>
+	</div>
+
+	<!--读入图片，并在 canvas 中显示-->
+	<script type="text/javascript">
+		// < !--读入图片-->
+		let imgElement = document.getElementById("srcImg");
+		let fileElement = document.getElementById("inputFile");
+		fileElement.addEventListener("change",
+			(e) => { imgElement.src = URL.createObjectURL(e.target.files[0]); },
+			false);
+
+		// < !--显示 -->
+		imgElement.onload = function () {
+			var data=imread(imgElement);
+			data  = ChangeColor(data);
+			imshow('dstImg',data);
+		};
+
+	</script>
+<script src="js/webcv.js"></script>
+</body>
+
+</html>
